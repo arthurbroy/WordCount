@@ -17,7 +17,7 @@ namespace WordCount
 		/// <param name="argv">控制台参数</param>
 		public void SelectFunction(string[] argv)
 		{
-			for(int i = 0; i < argv.Length - 1; i++)
+			for (int i = 0; i < argv.Length - 1; i++)
 			{
 				if (argv[i] == "-c")
 				{
@@ -88,21 +88,41 @@ namespace WordCount
 			Console.WriteLine("number of row in {0}: {1}", text, rowCnt);
 		}
 		#endregion
-		///#region CountOther
+		#region CountOthers
 		/// <summary>
 		/// 统计更复杂的数据（代码行/空行/注释行）
 		/// </summary>
 		/// <param name="file">文件路径</param>
 		/// <return></return>
-		//void CountOther(string file)
-		//{
-		//	int codeLine = 0, commentaryLine = 0, blankLine = 0;
-		//	FileStream fileStream = new FileStream(file, FileMode.Open);
-		//	StreamReader streamReader = new StreamReader(fileStream);
-
-
-
-		//}
-		///#endregion
+		void CountOthers(string file)
+		{
+			int codeLine = 0, commentaryLine = 0, blankLine = 0;
+			FileStream fileStream = new FileStream(file, FileMode.Open);
+			StreamReader streamReader = new StreamReader(fileStream);
+			string line = streamReader.ReadLine();
+			while (line != null) //若文件为空，三个值均为0
+			{
+				if (line.Trim() == "")
+					blankLine++;
+				else if (line.Trim().IndexOf("//") == 1 || line.Trim().IndexOf("//") == 2)
+					commentaryLine++;
+				//TODO注释行判断有误，还可能是<!-->？
+				else
+					codeLine++;
+			}
+			Console.WriteLine("");
+		}
+		#endregion
+		#region RunWindows
+		///<summary>
+		///调用窗体函数
+		///</summary>
+		void RunWindows()
+		{
+			MainWindow app = new MainWindow();
+			app.InitializeComponent();
+			//app.Run();
+		}
+		#endregion
 	}
 }

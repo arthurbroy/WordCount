@@ -27,7 +27,6 @@ namespace WordCount
 				Console.WriteLine("test success");
 			}
 			Console.Read();
-            //Application.Run(new MainWindow());
 		}
 	}
 }
