@@ -8,8 +8,16 @@ using System.Text.RegularExpressions;
 
 namespace WordCount
 {
-	class Utils //完成基本功能和拓展功能（-a)
+	class Utils //基本功能和拓展功能-a
 	{
+		private int letterCnt = 0;
+		private int wordCnt = 0;
+		private int lineCnt = 0;
+		private int codeLine = 0;
+		private int commentaryLine = 0;
+		private int blankLine = 0;
+
+#warning 尚未完成对读入目录/文件的判断
 		#region SelectFunction
 		/// <summary>
 		/// 根据输入的参数选择功能
@@ -31,7 +39,12 @@ namespace WordCount
 				}
 				else if (argv[i] == "-l")
 				{
-					CountRows(argv[i + 1]);
+					CountLines(argv[i + 1]);
+					break;
+				}
+				else if(argv[i] == "-a")
+				{
+					CountOthers(argv[i + 1]);
 					break;
 				}
 			}
@@ -46,7 +59,6 @@ namespace WordCount
 		public void CountLetter(string file)
 		{
 			string text = File.ReadAllText(file);
-			int letterCnt = 0;
 			foreach (var ch in text)
 			{
 				if (ch != '\n' && ch != '\r' && ch != '\t')
@@ -64,7 +76,6 @@ namespace WordCount
 		public void CountWords(string file)
 		{
 			string text = File.ReadAllText(file);
-			int wordCnt = 0;
 			string[] wordList = text.Split(",.?\n\r".ToArray());
 			foreach (var word in wordList)
 			{
@@ -74,18 +85,17 @@ namespace WordCount
 			Console.WriteLine("number of words in {0}: {1}", file, wordCnt);
 		}
 		#endregion
-		#region CountRows
+		#region CountLines
 		/// <summary>
 		/// 行数计数
 		/// </summary>
 		/// <param name="file"></param>
 		/// <return></return>
-		public void CountRows(string file)
+		public void CountLines(string file)
 		{
 			string text = File.ReadAllText(file);
-			int rowCnt = 0;
-			rowCnt = Regex.Matches(text, @"\r").Count + 1;
-			Console.WriteLine("number of row in {0}: {1}", text, rowCnt);
+			lineCnt = Regex.Matches(text, @"\r").Count + 1;
+			Console.WriteLine("number of row in {0}: {1}", text, lineCnt);
 		}
 		#endregion
 		#region CountOthers
@@ -96,23 +106,29 @@ namespace WordCount
 		/// <return></return>
 		void CountOthers(string file)
 		{
-			int codeLine = 0, commentaryLine = 0, blankLine = 0;
 			FileStream fileStream = new FileStream(file, FileMode.Open);
 			StreamReader streamReader = new StreamReader(fileStream);
 			string line = streamReader.ReadLine();
 			while (line != null) //若文件为空，三个值均为0
 			{
 				if (line.Trim() == "")
+				{
 					blankLine++;
+				}
 				else if (line.Trim().IndexOf("//") == 1 || line.Trim().IndexOf("//") == 2)
+				{
 					commentaryLine++;
+				}
 				//TODO注释行判断有误，还可能是<!-->？
 				else
+				{
 					codeLine++;
+				}
 			}
 			Console.WriteLine("");
 		}
 		#endregion
+		//让我想想要不要把结果保存到文件里.jpg
 		#region RunWindows
 		///<summary>
 		///调用窗体函数
