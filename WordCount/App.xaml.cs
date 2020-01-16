@@ -13,5 +13,23 @@ namespace WordCount
 	/// </summary>
 	public partial class App : Application
 	{
+		[STAThread]
+		static void Main(string[] args)
+		{
+			Console.Title = "WordCount";
+
+			Console.WriteLine("test");
+			Console.ReadKey();
+
+			if (args.Length >= 0)
+			{
+				Utils utils = new Utils();
+				utils.SelectFunction(args);
+				Console.WriteLine("test success");
+			}
+			Console.Read();
+
+			
+		}
 	}
 }

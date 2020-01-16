@@ -34,6 +34,7 @@ namespace WordCount
 			Console.WriteLine("number of letters in {0}: {1}", file, letterCnt);
 		}
 		#endregion
+
 		#region CountWords
 		/// <summary>
 		/// 单词计数
@@ -52,6 +53,7 @@ namespace WordCount
 			Console.WriteLine("number of words in {0}: {1}", file, wordCnt);
 		}
 		#endregion
+
 		#region CountLines
 		/// <summary>
 		/// 行数计数
@@ -65,6 +67,7 @@ namespace WordCount
 			Console.WriteLine("number of row in {0}: {1}", file, lineCnt);
 		}
 		#endregion
+
 		#region CountOthers
 		/// <summary>
 		/// 统计更复杂的数据（代码行/空行/注释行）
@@ -97,14 +100,18 @@ namespace WordCount
 			Console.WriteLine("空行：{0}, 代码行： {1}， 注释行：{2}", blankLine, codeLine, commentaryLine);
 		}
 		#endregion
+
 		#region RunWindows
 		///<summary>
 		///调用窗体函数
 		///</summary>
 		void RunWindows()
 		{
-			MainWindow mainWindow = new MainWindow();
-			mainWindow.ShowDialog();
+			var w = new ConsoleCtrl();
+			w.SetWindow(ConsoleCtrl.WindowState.minimize);
+			App app = new App();
+			app.InitializeComponent();
+			app.Run();
 		}
 		#endregion
 
@@ -115,14 +122,14 @@ namespace WordCount
 		/// <param name="argv">控制台参数</param>
 		public void SelectFunction(string[] argv)
 		{
-			if (argv.Contains("-x"))
-			{
-				App.Current.Dispatcher.BeginInvoke(new Action(delegate
-				{
+			//if (argv.Contains("-x"))
+			//{
+				//Application.Current.Dispatcher.BeginInvoke(new Action(delegate
+				//{
 					RunWindows();
-				}));
-				return;
-			}
+				//}));
+			//	return;
+			//}
 			string path = argv[argv.Length - 1];
 			int index = path.IndexOf(".");
 			string ext = path.Substring(index, path.Length - index);
