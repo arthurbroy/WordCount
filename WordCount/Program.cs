@@ -17,10 +17,12 @@ namespace WordCount
 {
 	class Program
 	{
+		[STAThread]
 		static void Main(string[] args) 
 		{
 			Console.WriteLine("test");
-			if(args.Length > 0)
+
+			if (args.Length > 0)
 			{
 				Utils utils = new Utils();
 				utils.SelectFunction(args);

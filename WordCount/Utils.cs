@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Windows;
 
 namespace WordCount
 {
@@ -102,9 +103,8 @@ namespace WordCount
 		///</summary>
 		void RunWindows()
 		{
-			MainWindow app = new MainWindow();
-			app.InitializeComponent();
-			//app.Run();
+			MainWindow mainWindow = new MainWindow();
+			mainWindow.ShowDialog();
 		}
 		#endregion
 
@@ -115,10 +115,14 @@ namespace WordCount
 		/// <param name="argv">控制台参数</param>
 		public void SelectFunction(string[] argv)
 		{
-			//if(argv.Contains("-x"))
-			//{
-			//	RunWindows();
-			//}
+			if (argv.Contains("-x"))
+			{
+				App.Current.Dispatcher.BeginInvoke(new Action(delegate
+				{
+					RunWindows();
+				}));
+				return;
+			}
 			string path = argv[argv.Length - 1];
 			int index = path.IndexOf(".");
 			string ext = path.Substring(index, path.Length - index);
