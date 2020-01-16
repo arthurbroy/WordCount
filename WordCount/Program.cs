@@ -17,18 +17,18 @@ namespace WordCount
 {
 	class Program
 	{
-		[STAThread]
-		static void Main(string[] args) 
-		{
-			Console.WriteLine("test");
+		//[STAThread]
+		//static void Main(string[] args) 
+		//{
+		//	Console.WriteLine("test");
 
-			if (args.Length > 0)
-			{
-				Utils utils = new Utils();
-				utils.SelectFunction(args);
-				Console.WriteLine("test success");
-			}
-			Console.Read();
-		}
+		//	if (args.Length > 0)
+		//	{
+		//		Utils utils = new Utils();
+		//		utils.SelectFunction(args);
+		//		Console.WriteLine("test success");
+		//	}
+		//	Console.Read();
+		//}
 	}
 }

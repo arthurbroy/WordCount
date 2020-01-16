@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Threading;
 
 namespace WordCount
 {
@@ -17,6 +18,7 @@ namespace WordCount
 		private int codeLine = 0;
 		private int commentaryLine = 0;
 		private int blankLine = 0;
+		private App app;
 		#region CountLetters
 		/// <summary>
 		/// 字符计数
@@ -34,6 +36,7 @@ namespace WordCount
 			Console.WriteLine("number of letters in {0}: {1}", file, letterCnt);
 		}
 		#endregion
+
 		#region CountWords
 		/// <summary>
 		/// 单词计数
@@ -52,6 +55,7 @@ namespace WordCount
 			Console.WriteLine("number of words in {0}: {1}", file, wordCnt);
 		}
 		#endregion
+
 		#region CountLines
 		/// <summary>
 		/// 行数计数
@@ -65,6 +69,7 @@ namespace WordCount
 			Console.WriteLine("number of row in {0}: {1}", file, lineCnt);
 		}
 		#endregion
+
 		#region CountOthers
 		/// <summary>
 		/// 统计更复杂的数据（代码行/空行/注释行）
@@ -97,14 +102,17 @@ namespace WordCount
 			Console.WriteLine("空行：{0}, 代码行： {1}， 注释行：{2}", blankLine, codeLine, commentaryLine);
 		}
 		#endregion
+
 		#region RunWindows
 		///<summary>
-		///调用窗体函数
+		///调用窗体函数，同时设置最小化命令行窗口
 		///</summary>
 		void RunWindows()
 		{
-			MainWindow mainWindow = new MainWindow();
-			mainWindow.ShowDialog();
+			var w = new ConsoleCtrl();
+			w.SetWindow(ConsoleCtrl.WindowState.minimize);
+			app.InitializeComponent();
+			app.Run();
 		}
 		#endregion
 
@@ -117,16 +125,14 @@ namespace WordCount
 		{
 			if (argv.Contains("-x"))
 			{
-				App.Current.Dispatcher.BeginInvoke(new Action(delegate
-				{
-					RunWindows();
-				}));
+				app = new App();
+				app.Dispatcher.Invoke(() => { RunWindows(); });
 				return;
 			}
-			string path = argv[argv.Length - 1];
+			string path = argv.Last();
 			int index = path.IndexOf(".");
 			string ext = path.Substring(index, path.Length - index);
-			if(argv.Contains<string>("-s"))
+			if(argv.Contains("-s"))
 			{
 				if(!Directory.Exists(argv[argv.Length - 1]))
 				{
@@ -138,7 +144,7 @@ namespace WordCount
 			string fileName = "";
 			foreach (FileInfo file in fileInfos)
 			{
-				if (!argv.Contains<string>("-s"))
+				if (!argv.Contains("-s"))
 				{
 					foreach (string item in argv)
 					{
