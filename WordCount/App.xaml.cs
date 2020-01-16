@@ -18,10 +18,7 @@ namespace WordCount
 		{
 			Console.Title = "WordCount";
 
-			Console.WriteLine("test");
-			Console.ReadKey();
-
-			if (args.Length >= 0)
+			if (args.Length > 0)
 			{
 				Utils utils = new Utils();
 				utils.SelectFunction(args);

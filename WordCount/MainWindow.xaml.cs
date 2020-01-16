@@ -30,7 +30,15 @@ namespace WordCount
 		{
 			OpenFileDialog ofd = new OpenFileDialog();
 			ofd.ShowDialog();
-
+			txtFile.Text = ofd.FileName;
+			Utils utils = new Utils();
+			txtChar.Text = utils.CountLetters(ofd.FileName).ToString();
+			txtWord.Text = utils.CountWords(ofd.FileName).ToString();
+			txtLine.Text = utils.CountLines(ofd.FileName).ToString();
+			string[] others = utils.CountOthers(ofd.FileName).Split('/');
+			txtBlank.Text = others[0];
+			txtCode.Text = others[1];
+			txtCommentary.Text = others[2];
 		}
 	}
 }

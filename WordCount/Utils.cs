@@ -25,7 +25,7 @@ namespace WordCount
 		/// </summary>
 		/// <param name="file">文件路径</param>
 		/// <return></return>
-		public void CountLetters(string file)
+		public int CountLetters(string file)
 		{
 			string text = File.ReadAllText(file);
 			foreach (var ch in text)
@@ -34,6 +34,7 @@ namespace WordCount
 					letterCnt++;
 			}
 			Console.WriteLine("number of letters in {0}: {1}", file, letterCnt);
+			return letterCnt;
 		}
 		#endregion
 
@@ -43,7 +44,7 @@ namespace WordCount
 		/// </summary>
 		/// <param name="file">文件路径</param>
 		/// <return></return>
-		public void CountWords(string file)
+		public int CountWords(string file)
 		{
 			string text = File.ReadAllText(file);
 			string[] wordList = text.Split(",.?\n\r".ToArray());
@@ -53,6 +54,7 @@ namespace WordCount
 					wordCnt++;
 			}
 			Console.WriteLine("number of words in {0}: {1}", file, wordCnt);
+			return wordCnt;
 		}
 		#endregion
 
@@ -62,11 +64,12 @@ namespace WordCount
 		/// </summary>
 		/// <param name="file"></param>
 		/// <return></return>
-		public void CountLines(string file)
+		public int CountLines(string file)
 		{
 			string text = File.ReadAllText(file);
 			lineCnt = Regex.Matches(text, @"\r").Count + 1;
 			Console.WriteLine("number of row in {0}: {1}", file, lineCnt);
+			return lineCnt;
 		}
 		#endregion
 
@@ -76,7 +79,7 @@ namespace WordCount
 		/// </summary>
 		/// <param name="file">文件路径</param>
 		/// <return></return>
-		void CountOthers(string file)
+		public string CountOthers(string file)
 		{
 			FileStream fileStream = new FileStream(file, FileMode.Open);
 			StreamReader streamReader = new StreamReader(fileStream);
@@ -100,6 +103,7 @@ namespace WordCount
 			}
 			streamReader.Close();
 			Console.WriteLine("空行：{0}, 代码行： {1}， 注释行：{2}", blankLine, codeLine, commentaryLine);
+			return blankLine.ToString() + "/" + codeLine.ToString() + "/" + commentaryLine.ToString();
 		}
 		#endregion
 

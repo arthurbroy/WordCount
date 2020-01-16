@@ -59,7 +59,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="ConsoleCtrl.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="FileSet.cs" />
     <Compile Include="Utils.cs" />
     <Page Include="MainWindow.xaml">

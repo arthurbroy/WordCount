@@ -5,10 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WordCount"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="文件信息" Height="450" Width="800">
     <Grid>
-        <TextBox Height="23" Margin="80,46,78,0" Name="textBox1" VerticalAlignment="Top" />
-        <Button Height="23" Margin="101,0,103,59" Name="button1" VerticalAlignment="Bottom" Click="button1_Click">Press</Button>
-
+        <Label Content="文件路径" Height="25" VerticalAlignment="Top" Margin="10,10,685.6,0"></Label>
+        <TextBox x:Name="txtFile" Height="25" Margin="139,10,245.6,0" VerticalAlignment="Top" />
+        <Label Content="字符数" Height="25" Margin="10,58,695.6,339"></Label>
+        <TextBox x:Name="txtChar" Height="25" Margin="139,58,245.6,337"></TextBox>
+        <Label Content="单词数" Height="25" Margin="10,108,695.6,289"/>
+        <TextBox x:Name="txtWord" Height="25" Margin="139,108,245.6,287"/>
+        <Label Content="行数" Height="25" Margin="10,160,695.6,237"/>
+        <TextBox x:Name="txtLine" Height="25" Margin="139,160,245.6,235"/>
+        <Label Content="空行数" Height="25" Margin="10,210,695.6,187"/>
+        <TextBox x:Name="txtBlank" Height="25" Margin="139,210,245.6,185"/>
+        <Label Content="代码行数" Height="25" Margin="10,310,695.6,87"/>
+        <TextBox x:Name="txtCode" Height="25" Margin="139,310,245.6,85"/>
+        <Label Content="注释行数" Height="25" Margin="10,257,695.6,138"/>
+        <TextBox x:Name="txtCommentary" Height="25" Margin="139,257,245.6,138"/>
+        <Button Height="25" Margin="289,0,291.6,38" Name="button1" VerticalAlignment="Bottom" Click="button1_Click">Select File</Button>
     </Grid>
 </Window>
