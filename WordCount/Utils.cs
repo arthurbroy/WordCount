@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Threading;
 
 namespace WordCount
 {
@@ -17,6 +18,7 @@ namespace WordCount
 		private int codeLine = 0;
 		private int commentaryLine = 0;
 		private int blankLine = 0;
+		private App app;
 		#region CountLetters
 		/// <summary>
 		/// 字符计数
@@ -103,13 +105,12 @@ namespace WordCount
 
 		#region RunWindows
 		///<summary>
-		///调用窗体函数
+		///调用窗体函数，同时设置最小化命令行窗口
 		///</summary>
 		void RunWindows()
 		{
 			var w = new ConsoleCtrl();
 			w.SetWindow(ConsoleCtrl.WindowState.minimize);
-			App app = new App();
 			app.InitializeComponent();
 			app.Run();
 		}
@@ -122,18 +123,16 @@ namespace WordCount
 		/// <param name="argv">控制台参数</param>
 		public void SelectFunction(string[] argv)
 		{
-			//if (argv.Contains("-x"))
-			//{
-				//Application.Current.Dispatcher.BeginInvoke(new Action(delegate
-				//{
-					RunWindows();
-				//}));
-			//	return;
-			//}
-			string path = argv[argv.Length - 1];
+			if (argv.Contains("-x"))
+			{
+				app = new App();
+				app.Dispatcher.Invoke(() => { RunWindows(); });
+				return;
+			}
+			string path = argv.Last();
 			int index = path.IndexOf(".");
 			string ext = path.Substring(index, path.Length - index);
-			if(argv.Contains<string>("-s"))
+			if(argv.Contains("-s"))
 			{
 				if(!Directory.Exists(argv[argv.Length - 1]))
 				{
@@ -145,7 +144,7 @@ namespace WordCount
 			string fileName = "";
 			foreach (FileInfo file in fileInfos)
 			{
-				if (!argv.Contains<string>("-s"))
+				if (!argv.Contains("-s"))
 				{
 					foreach (string item in argv)
 					{
