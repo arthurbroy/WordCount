@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace WordCount
 {
-	class Utils //基本功能和拓展功能-a
+	public class Utils //基本功能和拓展功能
 	{
 		private int letterCnt = 0;
 		private int wordCnt = 0;
@@ -16,47 +16,13 @@ namespace WordCount
 		private int codeLine = 0;
 		private int commentaryLine = 0;
 		private int blankLine = 0;
-
-#warning 尚未完成对读入目录/文件的判断
-		#region SelectFunction
-		/// <summary>
-		/// 根据输入的参数选择功能
-		/// </summary>
-		/// <param name="argv">控制台参数</param>
-		public void SelectFunction(string[] argv)
-		{
-			for (int i = 0; i < argv.Length - 1; i++)
-			{
-				if (argv[i] == "-c")
-				{
-					CountLetter(argv[i + 1]);
-					break;
-				}
-				else if (argv[i] == "-w")
-				{
-					CountWords(argv[i + 1]);
-					break;
-				}
-				else if (argv[i] == "-l")
-				{
-					CountLines(argv[i + 1]);
-					break;
-				}
-				else if(argv[i] == "-a")
-				{
-					CountOthers(argv[i + 1]);
-					break;
-				}
-			}
-		}
-		#endregion
 		#region CountLetters
 		/// <summary>
 		/// 字符计数
 		/// </summary>
 		/// <param name="file">文件路径</param>
 		/// <return></return>
-		public void CountLetter(string file)
+		public void CountLetters(string file)
 		{
 			string text = File.ReadAllText(file);
 			foreach (var ch in text)
@@ -95,7 +61,7 @@ namespace WordCount
 		{
 			string text = File.ReadAllText(file);
 			lineCnt = Regex.Matches(text, @"\r").Count + 1;
-			Console.WriteLine("number of row in {0}: {1}", text, lineCnt);
+			Console.WriteLine("number of row in {0}: {1}", file, lineCnt);
 		}
 		#endregion
 		#region CountOthers
@@ -124,11 +90,12 @@ namespace WordCount
 				{
 					codeLine++;
 				}
+				line = streamReader.ReadLine();
 			}
-			Console.WriteLine("");
+			streamReader.Close();
+			Console.WriteLine("空行：{0}, 代码行： {1}， 注释行：{2}", blankLine, codeLine, commentaryLine);
 		}
 		#endregion
-		//让我想想要不要把结果保存到文件里.jpg
 		#region RunWindows
 		///<summary>
 		///调用窗体函数
@@ -138,6 +105,69 @@ namespace WordCount
 			MainWindow app = new MainWindow();
 			app.InitializeComponent();
 			//app.Run();
+		}
+		#endregion
+
+		#region SelectFunction
+		/// <summary>
+		/// 根据输入的参数选择功能
+		/// </summary>
+		/// <param name="argv">控制台参数</param>
+		public void SelectFunction(string[] argv)
+		{
+			//if(argv.Contains("-x"))
+			//{
+			//	RunWindows();
+			//}
+			string path = argv[argv.Length - 1];
+			int index = path.IndexOf(".");
+			string ext = path.Substring(index, path.Length - index);
+			if(argv.Contains<string>("-s"))
+			{
+				if(!Directory.Exists(argv[argv.Length - 1]))
+				{
+					index = path.LastIndexOf("\\");
+					path = path.Substring(0, index);
+				}
+			}
+			List<FileInfo> fileInfos = FileSet.GetAllFiles(path, ext);
+			string fileName = "";
+			foreach (FileInfo file in fileInfos)
+			{
+				if (!argv.Contains<string>("-s"))
+				{
+					foreach (string item in argv)
+					{
+						if (item.EndsWith(ext) && item.ToString() == file.ToString())
+							fileName = item;
+					}
+				}
+				else
+					fileName = file.FullName.ToString();
+				for (int i = 0; i < argv.Length - 1; i++)
+				{
+					if (argv[i] == "-c")
+					{
+						CountLetters(fileName);
+						break;
+					}
+					else if (argv[i] == "-w")
+					{
+						CountWords(fileName);
+						break;
+					}
+					else if (argv[i] == "-l")
+					{
+						CountLines(fileName);
+						break;
+					}
+					else if (argv[i] == "-a")
+					{
+						CountOthers(fileName);
+						break;
+					}
+				}
+			}
 		}
 		#endregion
 	}

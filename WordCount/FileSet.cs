@@ -32,24 +32,34 @@ namespace WordCount
 		/// <param name="ext">要检索的文件扩展名</param>
 		public static void TraverseDir(string path, string ext)
 		{
-			string[] dirs = Directory.GetDirectories(path); //获取当前目录下的所有文件夹
-			DirectoryInfo directoryInfo = new DirectoryInfo(path);
-			FileInfo[] fileInfo = directoryInfo.GetFiles();
-			if (fileInfo != null) //获取当前目录下的文件
+			if(File.Exists(path))
 			{
-				foreach (var file in fileInfo)
+				Console.WriteLine(path);
+				FileInfo file = new FileInfo(path);
+				fileList.Add(file);
+			}
+			else
+			{
+				string[] dirs = Directory.GetDirectories(path); //获取当前目录下的所有文件夹
+				DirectoryInfo directoryInfo = new DirectoryInfo(path);
+				FileInfo[] fileInfo = directoryInfo.GetFiles();
+				if (fileInfo != null) //获取当前目录下的文件
 				{
-					if (String.Equals(ext.ToLower(), file.Extension.ToLower()))
+					foreach (var file in fileInfo)
 					{
-						fileList.Add(file);
+						if (String.Equals(ext.ToLower(), file.Extension.ToLower()))
+						{
+							Console.WriteLine(file.FullName);
+							fileList.Add(file);
+						}
 					}
 				}
-			}
-			if (dirs.Length > 0) //递归操作文件夹
-			{
-				foreach (var dir in dirs)
+				if (dirs.Length > 0) //递归操作文件夹
 				{
-					TraverseDir(dir, ext);
+					foreach (var dir in dirs)
+					{
+						TraverseDir(dir, ext);
+					}
 				}
 			}
 		}
