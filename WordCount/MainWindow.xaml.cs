@@ -32,7 +32,7 @@ namespace WordCount
 			ofd.ShowDialog();
 			txtFile.Text = ofd.FileName;
 			Utils utils = new Utils();
-			txtChar.Text = utils.CountLetters(ofd.FileName).ToString();
+			txtChar.Text = utils.CountChars(ofd.FileName).ToString();
 			txtWord.Text = utils.CountWords(ofd.FileName).ToString();
 			txtLine.Text = utils.CountLines(ofd.FileName).ToString();
 			string[] others = utils.CountOthers(ofd.FileName).Split('/');

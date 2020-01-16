@@ -1,40 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
-using System.Windows;
-using System.Threading;
 
 namespace WordCount
 {
 	public class Utils //基本功能和拓展功能
 	{
-		private int letterCnt = 0;
+		private int charCnt = 0;
 		private int wordCnt = 0;
 		private int lineCnt = 0;
-		private int codeLine = 0;
-		private int commentaryLine = 0;
-		private int blankLine = 0;
+		private int codeLineCnt = 0;
+		private int commentaryLineCnt = 0;
+		private int blankLineCnt = 0;
 		private App app;
-		#region CountLetters
+		#region CountChars
 		/// <summary>
 		/// 字符计数
 		/// </summary>
 		/// <param name="file">文件路径</param>
 		/// <return></return>
-		public int CountLetters(string file)
+		public int CountChars(string file)
 		{
 			string text = File.ReadAllText(file);
 			foreach (var ch in text)
 			{
 				if (ch != '\n' && ch != '\r' && ch != '\t')
-					letterCnt++;
+					charCnt++;
 			}
-			Console.WriteLine("number of letters in {0}: {1}", file, letterCnt);
-			return letterCnt;
+			Console.WriteLine("number of letters in {0}: {1}", file, charCnt);
+			return charCnt;
 		}
 		#endregion
 
@@ -88,30 +84,30 @@ namespace WordCount
 			{
 				if (line.Trim() == "")
 				{
-					blankLine++;
+					blankLineCnt++;
 				}
 				else if (line.Trim().IndexOf("//") == 1 || line.Trim().IndexOf("//") == 2)
 				{
-					commentaryLine++;
+					commentaryLineCnt++;
 				}
 				//TODO注释行判断有误，还可能是<!-->？
 				else
 				{
-					codeLine++;
+					codeLineCnt++;
 				}
 				line = streamReader.ReadLine();
 			}
 			streamReader.Close();
-			Console.WriteLine("空行：{0}, 代码行： {1}， 注释行：{2}", blankLine, codeLine, commentaryLine);
-			return blankLine.ToString() + "/" + codeLine.ToString() + "/" + commentaryLine.ToString();
+			Console.WriteLine("空行：{0}, 代码行： {1}， 注释行：{2}", blankLineCnt, codeLineCnt, commentaryLineCnt);
+			return blankLineCnt.ToString() + "/" + codeLineCnt.ToString() + "/" + commentaryLineCnt.ToString();
 		}
 		#endregion
 
-		#region RunWindows
+		#region RunWindow
 		///<summary>
 		///调用窗体函数，同时设置最小化命令行窗口
 		///</summary>
-		void RunWindows()
+		void RunWindow()
 		{
 			var w = new ConsoleCtrl();
 			w.SetWindow(ConsoleCtrl.WindowState.minimize);
@@ -162,7 +158,7 @@ namespace WordCount
 				{
 					if (argv[i] == "-c")
 					{
-						CountLetters(fileName);
+						CountChars(fileName);
 						break;
 					}
 					else if (argv[i] == "-w")
