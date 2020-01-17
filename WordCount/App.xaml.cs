@@ -17,7 +17,6 @@ namespace WordCount
 		static void Main(string[] args)
 		{
 			Console.Title = "WordCount";
-
 			if (args.Length > 0)
 			{
 				Utils utils = new Utils();

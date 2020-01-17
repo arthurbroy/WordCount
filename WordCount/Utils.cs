@@ -23,13 +23,14 @@ namespace WordCount
 		/// <return></return>
 		public int CountChars(string file)
 		{
+			charCnt = 0;
 			string text = File.ReadAllText(file);
 			foreach (var ch in text)
 			{
 				if (ch != '\n' && ch != '\r' && ch != '\t')
 					charCnt++;
 			}
-			Console.WriteLine("number of letters in {0}: {1}", file, charCnt);
+			Console.WriteLine("{0}的字符数：{1}", file, charCnt);
 			return charCnt;
 		}
 		#endregion
@@ -42,6 +43,7 @@ namespace WordCount
 		/// <return></return>
 		public int CountWords(string file)
 		{
+			wordCnt = 0;
 			string text = File.ReadAllText(file);
 			string[] wordList = text.Split(",.?\n\r".ToArray());
 			foreach (var word in wordList)
@@ -49,7 +51,7 @@ namespace WordCount
 				if (wordList.Length > 0)
 					wordCnt++;
 			}
-			Console.WriteLine("number of words in {0}: {1}", file, wordCnt);
+			Console.WriteLine("{0}的单词数： {1}", file, wordCnt);
 			return wordCnt;
 		}
 		#endregion
@@ -62,9 +64,17 @@ namespace WordCount
 		/// <return></return>
 		public int CountLines(string file)
 		{
+			lineCnt = 0;
+			commentaryLineCnt = 0;
 			string text = File.ReadAllText(file);
 			lineCnt = Regex.Matches(text, @"\r").Count + 1;
-			Console.WriteLine("number of row in {0}: {1}", file, lineCnt);
+			//多行注释匹配
+			MatchCollection matchCollection = Regex.Matches(text, @"\/\*([^\*]|\*+[^\/\*])*\*+\/");
+			foreach (var mc in matchCollection)
+			{
+				commentaryLineCnt += mc.ToString().Split("\r".ToArray()).Count();
+			}
+			Console.WriteLine("{0}的行数： {1}", file, lineCnt);
 			return lineCnt;
 		}
 		#endregion
@@ -77,6 +87,9 @@ namespace WordCount
 		/// <return></return>
 		public string CountOthers(string file)
 		{
+			codeLineCnt = 0;
+			blankLineCnt = 0;
+			CountLines(file);
 			FileStream fileStream = new FileStream(file, FileMode.Open);
 			StreamReader streamReader = new StreamReader(fileStream);
 			string line = streamReader.ReadLine();
@@ -88,17 +101,14 @@ namespace WordCount
 				}
 				else if (line.Trim().IndexOf("//") == 1 || line.Trim().IndexOf("//") == 2)
 				{
+					//多行注释在CountLine中进行统计
 					commentaryLineCnt++;
-				}
-				//TODO注释行判断有误，还可能是<!-->？
-				else
-				{
-					codeLineCnt++;
 				}
 				line = streamReader.ReadLine();
 			}
+			codeLineCnt = lineCnt - blankLineCnt - commentaryLineCnt;
 			streamReader.Close();
-			Console.WriteLine("空行：{0}, 代码行： {1}， 注释行：{2}", blankLineCnt, codeLineCnt, commentaryLineCnt);
+			Console.WriteLine("{0}的空行：{1}, 代码行： {2}， 注释行：{3}", file, blankLineCnt, codeLineCnt, commentaryLineCnt);
 			return blankLineCnt.ToString() + "/" + codeLineCnt.ToString() + "/" + commentaryLineCnt.ToString();
 		}
 		#endregion
@@ -126,7 +136,7 @@ namespace WordCount
 			if (argv.Contains("-x"))
 			{
 				app = new App();
-				app.Dispatcher.Invoke(() => { RunWindows(); });
+				app.Dispatcher.Invoke(() => { RunWindow(); });
 				return;
 			}
 			string path = argv.Last();
