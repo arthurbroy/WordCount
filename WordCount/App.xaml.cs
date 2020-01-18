@@ -20,8 +20,14 @@ namespace WordCount
 			if (args.Length > 0)
 			{
 				Utils utils = new Utils();
-				utils.SelectFunction(args);
-				Console.WriteLine("test success");
+				if(utils.SelectFunction(args) == 0)
+				{
+					Console.WriteLine("执行成功");
+				}
+			}
+			else
+			{
+				Console.WriteLine("参数数量不合法");
 			}
 			Console.Read();
 

@@ -131,13 +131,13 @@ namespace WordCount
 		/// 根据输入的参数选择功能
 		/// </summary>
 		/// <param name="argv">控制台参数</param>
-		public void SelectFunction(string[] argv)
+		public int SelectFunction(string[] argv)
 		{
 			if (argv.Contains("-x"))
 			{
 				app = new App();
 				app.Dispatcher.Invoke(() => { RunWindow(); });
-				return;
+				return 0;
 			}
 			string path = argv.Last();
 			int index = path.IndexOf(".");
@@ -186,8 +186,14 @@ namespace WordCount
 						CountOthers(fileName);
 						break;
 					}
+					else
+					{
+						Console.WriteLine("参数不合法");
+						return -1;
+					}
 				}
 			}
+			return 0;
 		}
 		#endregion
 	}
