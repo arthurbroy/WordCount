@@ -5,22 +5,39 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WordCount"
         mc:Ignorable="d"
-        Title="文件信息" Height="450" Width="800">
-    <Grid>
-        <Label Content="文件路径" Height="25" VerticalAlignment="Top" Margin="10,10,685.6,0"></Label>
-        <TextBox x:Name="txtFile" Height="25" Margin="139,10,245.6,0" VerticalAlignment="Top" />
-        <Label Content="字符数" Height="25" Margin="10,58,695.6,339"></Label>
-        <TextBox x:Name="txtChar" Height="25" Margin="139,58,245.6,337"></TextBox>
-        <Label Content="单词数" Height="25" Margin="10,108,695.6,289"/>
-        <TextBox x:Name="txtWord" Height="25" Margin="139,108,245.6,287"/>
-        <Label Content="行数" Height="25" Margin="10,160,695.6,237"/>
-        <TextBox x:Name="txtLine" Height="25" Margin="139,160,245.6,235"/>
-        <Label Content="空行数" Height="25" Margin="10,210,695.6,187"/>
-        <TextBox x:Name="txtBlank" Height="25" Margin="139,210,245.6,185"/>
-        <Label Content="代码行数" Height="25" Margin="10,310,695.6,87"/>
-        <TextBox x:Name="txtCode" Height="25" Margin="139,310,245.6,85"/>
-        <Label Content="注释行数" Height="25" Margin="10,257,695.6,138"/>
-        <TextBox x:Name="txtCommentary" Height="25" Margin="139,257,245.6,138"/>
-        <Button Height="25" Margin="289,0,291.6,38" Name="button1" VerticalAlignment="Bottom" Click="button1_Click">Select File</Button>
+        Title="文件信息" SizeToContent="WidthAndHeight" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+
+    <Grid MinWidth="700" ShowGridLines="False" MinHeight="350">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="1.5*"/>
+            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="1.5*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label Content="文件路径" Margin="20,10,10,10" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"></Label>
+        <TextBox x:Name="txtFile" Margin="10, 10, 10, 10" VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="2"/>
+        <Label Content="字符数" Margin="20,10,10,10" Grid.Row="1" Grid.Column="0"></Label>
+        <TextBox x:Name="txtChar" Margin="10, 10, 10, 10" VerticalContentAlignment="Center" Grid.Row="1" Grid.Column="2"></TextBox>
+        <Label Content="单词数" Margin="20,10,10,10" Grid.Row="2" Grid.Column="0"/>
+        <TextBox x:Name="txtWord" Margin="10, 10, 10, 10" VerticalContentAlignment="Center" Grid.Row="2" Grid.Column="2"/>
+        <Label Content="行数" Margin="20,10,10,10" Grid.Row="3" Grid.Column="0"/>
+        <TextBox x:Name="txtLine" Margin="10, 10, 10, 10" VerticalContentAlignment="Center" Grid.Row="3" Grid.Column="2"/>
+        <Label Content="空行数" Margin="20,10,10,10" Grid.Row="4" Grid.Column="0"/>
+        <TextBox x:Name="txtBlank" Margin="10, 10, 10, 10" VerticalContentAlignment="Center" Grid.Row="4" Grid.Column="2"/>
+        <Label Content="代码行数" Margin="20,10,10,10" Grid.Row="6" Grid.Column="0"/>
+        <TextBox x:Name="txtCode" Margin="10, 10, 10, 10" VerticalContentAlignment="Center" Grid.Row="6" Grid.Column="2"/>
+        <Label Content="注释行数" Margin="20,10,10,10" Grid.Row="5" Grid.Column="0"/>
+        <TextBox x:Name="txtCommentary" Margin="10, 10, 10, 10" VerticalContentAlignment="Center" Grid.Row="5" Grid.Column="2"/>
+        <Button  Margin="10, 10, 10, 10" Name="button1" HorizontalAlignment='Center' Click="button1_Click" Grid.Row="7" Grid.ColumnSpan="4" HorizontalContentAlignment="Center" Padding="20,2">Select File</Button>
     </Grid>
 </Window>
