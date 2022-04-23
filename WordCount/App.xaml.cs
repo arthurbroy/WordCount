@@ -20,7 +20,7 @@ namespace WordCount
 			if (args.Length > 0)
 			{
 				Utils utils = new Utils();
-				if(utils.SelectFunction(args) == 0)
+				if (utils.SelectFunction(args) == 0)
 				{
 					Console.WriteLine("执行成功");
 				}
@@ -29,7 +29,6 @@ namespace WordCount
 			{
 				Console.WriteLine("参数数量不合法");
 			}
-			Console.Read();
 
 			return;
 		}
